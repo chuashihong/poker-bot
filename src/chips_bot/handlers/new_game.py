@@ -1,8 +1,11 @@
 from __future__ import annotations
 
-from telegram import Update
+import time
+
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, WebAppInfo
 from telegram.ext import CommandHandler, ContextTypes, ConversationHandler, MessageHandler, filters
 
+from chips_bot.config import Config
 from chips_bot.handlers.common import (
     database,
     decimal_to_storage,
@@ -11,6 +14,7 @@ from chips_bot.handlers.common import (
     reply_text,
     user_display_name,
 )
+from chips_bot.mini_app import PendingNewGame, build_new_game_url, cleanup_expired_setups, create_setup_token
 from chips_bot.repositories import games
 from chips_bot.settlement import SettlementError
 
@@ -31,6 +35,30 @@ async def start_new_game(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         if active_game is not None:
             await reply_text(update, f"Game #{active_game.id} is already active. Use /status or /cancelgame first.")
             return ConversationHandler.END
+
+    config: Config = context.application.bot_data["config"]
+    if config.mini_app_url:
+        pending_setups: dict[str, PendingNewGame] = context.application.bot_data.setdefault("pending_new_game_setups", {})
+        cleanup_expired_setups(pending_setups)
+        token = create_setup_token()
+        pending_setups[token] = PendingNewGame(
+            chat_id=chat.id,
+            host_user_id=user.id,
+            host_display_name=user_display_name(user),
+            expires_at=time.time() + 15 * 60,
+        )
+        mini_app_url = build_new_game_url(config.mini_app_url, token)
+        await reply_text(
+            update,
+            "Open the Mini App to set up the game.",
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [InlineKeyboardButton("Open Mini App", web_app=WebAppInfo(url=mini_app_url))],
+                    [InlineKeyboardButton("Open Link", url=mini_app_url)],
+                ]
+            ),
+        )
+        return ConversationHandler.END
 
     context.user_data["new_game"] = {
         "chat_id": chat.id,

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poker Game Setup</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./config.js"></script>
+</head>
+<body>
+  <main>
+    <h1>New Poker Game</h1>
+    <form id="new-game-form">
+      <label>
+        Chip value in SGD
+        <input name="chip_value_sgd" inputmode="decimal" value="0.1" required>
+      </label>
+      <label>
+        Host commission percentage
+        <input name="host_commission_percent" inputmode="decimal" value="0" required>
+      </label>
+      <fieldset>
+        <legend>Buy-ins entered as</legend>
+        <div class="mode" role="radiogroup" aria-label="Buy-in mode">
+          <label><input type="radio" name="buy_in_mode" value="SGD" checked><span>SGD</span></label>
+          <label><input type="radio" name="buy_in_mode" value="CHIPS"><span>Chips</span></label>
+        </div>
+      </fieldset>
+      <button type="submit">Start Game</button>
+      <div id="status" role="status" aria-live="polite"></div>
+    </form>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>

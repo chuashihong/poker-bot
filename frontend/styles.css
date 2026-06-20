@@ -1,0 +1,121 @@
+:root {
+  color-scheme: light dark;
+  --bg: var(--tg-theme-bg-color, #f6f7f2);
+  --text: var(--tg-theme-text-color, #1f2933);
+  --muted: var(--tg-theme-hint-color, #64748b);
+  --surface: var(--tg-theme-secondary-bg-color, #ffffff);
+  --button: var(--tg-theme-button-color, #0f766e);
+  --button-text: var(--tg-theme-button-text-color, #ffffff);
+  --line: rgba(100, 116, 139, 0.28);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+main {
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  margin: 8px 0 18px;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+form {
+  display: grid;
+  gap: 16px;
+}
+
+label,
+legend {
+  display: grid;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--muted);
+}
+
+fieldset {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+input {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 12px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 17px;
+}
+
+.mode {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.mode input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mode span {
+  display: grid;
+  min-height: 46px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.mode input:checked + span {
+  border-color: var(--button);
+  background: color-mix(in srgb, var(--button) 14%, var(--surface));
+}
+
+button {
+  min-height: 50px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--button);
+  color: var(--button-text);
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+#status {
+  min-height: 24px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}

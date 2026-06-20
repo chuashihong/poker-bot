@@ -1,0 +1,1 @@
+window.CHIPS_BOT_API_BASE_URL = "https://your-backend-api.example";
