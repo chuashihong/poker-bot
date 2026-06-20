@@ -1,1 +1,1 @@
-window.CHIPS_BOT_API_BASE_URL = "https://your-backend-api.example";
+window.CHIPS_BOT_API_BASE_URL = "https://poker-bot-n6d3.onrender.com";
