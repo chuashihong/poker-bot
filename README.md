@@ -72,6 +72,31 @@ When `MINI_APP_URL` is present, `/newgame` sends a one-use Mini App setup button
 
 For local development, expose the backend port with an HTTPS tunnel and set `frontend/config.js` to that tunnel origin. You can open `frontend/index.html` directly for layout work, but Telegram `initData` is only available when the page is opened inside Telegram.
 
+## Backend Hosting
+
+The backend is the same Python process that runs the Telegram bot. It starts polling Telegram and, when `MINI_APP_URL` is set, also serves the Mini App API on `MINI_APP_HOST:MINI_APP_PORT`.
+
+For cloud hosting, use a platform that supports long-running Python web services, such as Render, Railway, Fly.io, or a VPS. The service must expose the API over HTTPS.
+
+Required environment variables:
+
+```text
+TELEGRAM_BOT_TOKEN=1234567890:your_real_telegram_bot_token
+DATABASE_URL=sqlite:///chips_bot.sqlite3
+MINI_APP_URL=https://your-frontend-domain.example
+MINI_APP_HOST=0.0.0.0
+```
+
+Most cloud hosts provide a `PORT` variable automatically. The app uses `MINI_APP_PORT` when set, otherwise it falls back to `PORT`, then `8080`.
+
+Recommended start command:
+
+```powershell
+python -m chips_bot.main
+```
+
+For production, prefer a managed database or a persistent disk. Plain SQLite on an ephemeral filesystem can be deleted when the service restarts or redeploys.
+
 The editable install is important because this project uses a `src/` layout. After `python -m pip install -e ".[dev]"`, Python can import the package as `chips_bot` from anywhere inside the virtual environment.
 
 ## Run

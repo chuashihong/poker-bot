@@ -25,5 +25,5 @@ def load_config() -> Config:
         database_url=getenv("DATABASE_URL", "sqlite:///chips_bot.sqlite3"),
         mini_app_url=mini_app_url.rstrip("/") if mini_app_url else None,
         mini_app_host=getenv("MINI_APP_HOST", "127.0.0.1"),
-        mini_app_port=int(getenv("MINI_APP_PORT", "8080")),
+        mini_app_port=int(getenv("MINI_APP_PORT", getenv("PORT", "8080"))),
     )
