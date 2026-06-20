@@ -95,6 +95,10 @@ Recommended start command:
 python -m chips_bot.main
 ```
 
+Do not use `uvicorn chips_bot.main:main` for this project. `chips_bot.main` starts the Telegram polling bot and then launches the Mini App API internally. Running it as a Uvicorn ASGI target can produce `TypeError: 'NoneType' object is not callable`.
+
+If Render selects a newer Python runtime unexpectedly, keep `runtime.txt` in the repository root so Render uses the same Python version as local development.
+
 For production, prefer a managed database or a persistent disk. Plain SQLite on an ephemeral filesystem can be deleted when the service restarts or redeploys.
 
 The editable install is important because this project uses a `src/` layout. After `python -m pip install -e ".[dev]"`, Python can import the package as `chips_bot` from anywhere inside the virtual environment.

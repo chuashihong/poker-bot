@@ -103,19 +103,24 @@ def create_mini_app(
     bot: Bot,
     bot_token: str,
     pending_setups: dict[str, PendingNewGame],
-  allowed_origins: list[str],
+    allowed_origins: list[str],
 ) -> FastAPI:
-  app = FastAPI(title="Poker Bot Mini App API")
-  app.add_middleware(
-    CORSMiddleware,
-    allow_origins=allowed_origins,
-    allow_methods=["POST"],
-    allow_headers=["Content-Type"],
-  )
+    app = FastAPI(title="Poker Bot Mini App API")
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=allowed_origins,
+        allow_methods=["POST"],
+        allow_headers=["Content-Type"],
+    )
 
-  @app.get("/health")
-  async def health() -> dict[str, bool]:
-    return {"ok": True}
+    @app.get("/")
+    @app.head("/")
+    async def root_health() -> dict[str, bool]:
+        return {"ok": True}
+
+    @app.get("/health")
+    async def health() -> dict[str, bool]:
+        return {"ok": True}
 
     @app.post("/api/new-game")
     async def create_new_game(request: NewGameRequest) -> dict[str, object]:
