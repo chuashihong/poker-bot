@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "poker-bot"
+version = "0.1.0"
+description = "Telegram poker chips settlement bot"
+requires-python = ">=3.10"
+dependencies = [
+    "python-telegram-bot>=22.0",
+    "python-dotenv>=1.0.0",
+    "SQLAlchemy>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
